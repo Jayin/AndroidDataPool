@@ -1,6 +1,16 @@
 *.class
 
-# Package Files #
-*.jar
+
+# Package Files 
 *.war
+
 *.ear
+
+#android file
+bin/
+res/
+gen/
+libs/
+*.png
+*.txt
+ 
