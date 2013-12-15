@@ -11,7 +11,7 @@ import android.util.Log;
 
 import com.utils.DataPool;
 
-public class Test extends AndroidTestCase {
+public class DataPoolTest extends AndroidTestCase {
 	
 
 	public void test1(){

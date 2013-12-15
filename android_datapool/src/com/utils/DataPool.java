@@ -37,7 +37,7 @@ public class DataPool {
 		sp = context.getSharedPreferences(this.DataPoolName,
 				Context.MODE_PRIVATE);
 	}
-
+	
 	/**
 	 * add a key(String)-value(Serializable object) into SharedPreference
 	 * 
