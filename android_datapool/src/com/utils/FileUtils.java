@@ -3,9 +3,13 @@ package com.utils;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 
 public class FileUtils {
 	private final static  String FileUtils_Defalut_charsetName="UTF-8";
@@ -149,8 +153,172 @@ public class FileUtils {
             }
         }
     }
-//	public static void main(String[] args) {
-//		String filePath = "D:\\e.txt";
-//		System.out.println(readFile(filePath));
-//	}
+    
+    
+    
+    /**
+     * write file
+     * 
+     * @param filePath
+     * @param content
+     * @return
+     *  
+     */
+    public static boolean writeFile(String filePath, String content) {
+        return writeFile(filePath, content, false);
+    }
+    
+  
+
+
+    /**
+     * write file
+     * 
+     * @param file the file to be opened for writing.
+     * @param stream the input stream
+     * @param append if <code>true</code>, then bytes will be written to the end of the file rather than the beginning
+     * @return return true
+     * @throws RuntimeException if an error occurs while operator FileOutputStream
+     */
+    public static boolean writeFile(File file, InputStream stream, boolean append) {
+        OutputStream o = null;
+        try {
+            makeDirs(file.getAbsolutePath());
+            o = new FileOutputStream(file, append);
+            byte data[] = new byte[1024];
+            int length = -1;
+            while ((length = stream.read(data)) != -1) {
+                o.write(data, 0, length);
+            }
+            o.flush();
+            return true;
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException("FileNotFoundException occurred. ", e);
+        } catch (IOException e) {
+            throw new RuntimeException("IOException occurred. ", e);
+        } finally {
+            if (o != null) {
+                try {
+                    o.close();
+                    stream.close();
+                } catch (IOException e) {
+                    throw new RuntimeException("IOException occurred. ", e);
+                }
+            }
+        }
+    }
+    
+    /**
+     * write file
+     * 
+     * @param file the file to be opened for writing.
+     * @param stream the input stream
+     * @param append if <code>true</code>, then bytes will be written to the end of the file rather than the beginning
+     * @return return true
+     * @throws RuntimeException if an error occurs while operator FileOutputStream
+     */
+    public static boolean writeFile(String filePath, InputStream stream, boolean append) {
+        return writeFile(filePath != null ? new File(filePath) : null, stream, append);
+    }
+    /**
+     * write file
+     * 
+     * @param filePath
+     * @param stream
+     * @return
+     * @see {@link #writeFile(String, InputStream, boolean)}
+     */
+    public static boolean writeFile(String filePath, InputStream stream) {
+        return writeFile(filePath, stream, false);
+    }
+    /**
+     * write file
+     * defalut   not appendly write in to file
+     * @param file
+     * @param stream
+     * @return
+     *  
+     */
+    public static boolean writeFile(File file, InputStream stream) {
+        return writeFile(file, stream, false);
+    }
+    
+    /**
+     * copy file
+     * 
+     * @param sourceFilePath
+     * @param destFilePath
+     * @return
+     * @throws RuntimeException if an error occurs while operator FileOutputStream
+     */
+    public static boolean copyFile(String sourceFilePath, String destFilePath) {
+        InputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream(sourceFilePath);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException("FileNotFoundException occurred. ", e);
+        }
+        return writeFile(destFilePath, inputStream);
+    }
+
+
+	public static void main(String[] args) {
+		String filePath = "D:\\e.txt";
+		System.out.println(writeFile(filePath, "你妹！！", false));
+	}
+	
+    /**
+     * delete file or directory
+     * <ul>
+     * <li>if path is null or empty, return true</li>
+     * <li>if path not exist, return true</li>
+     * <li>if path exist, delete recursion. return true</li>
+     * <ul>
+     * 
+     * @param path
+     * @return
+     */
+    public static boolean deleteFile(String path) {
+        if (path==null || path.trim().length()==0) {
+            return true;
+        }
+
+        File file = new File(path);
+        if (!file.exists()) {
+            return true;
+        }
+        if (file.isFile()) {
+            return file.delete();
+        }
+        if (!file.isDirectory()) {
+            return false;
+        }
+        for (File f : file.listFiles()) {
+            if (f.isFile()) {
+                f.delete();
+            } else if (f.isDirectory()) {
+                deleteFile(f.getAbsolutePath());
+            }
+        }
+        return file.delete();
+    }
+
+    /**
+     * get file size
+     * <ul>
+     * <li>if path is null or empty, return -1</li>
+     * <li>if path exist and it is a file, return file size, else return -1</li>
+     * <ul>
+     * 
+     * @param path
+     * @return
+     */
+    public static long getFileSize(String path) {
+        if (path==null || path.trim().length()==0) {
+            return -1;
+        }
+
+        File file = new File(path);
+        return (file.exists() && file.isFile() ? file.length() : -1);
+    }
 }
