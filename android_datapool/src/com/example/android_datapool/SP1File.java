@@ -111,7 +111,7 @@ public class SP1File extends Activity {
 						}
 					}
 					start = System.currentTimeMillis();
-					dp.add("test", content);
+					dp.put("test", content);
 					end = System.currentTimeMillis();
 
 					t_s += (end - start);

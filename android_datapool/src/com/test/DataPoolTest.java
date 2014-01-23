@@ -19,9 +19,9 @@ public class DataPoolTest extends AndroidTestCase {
 		MyData1 m2 = new MyData1("android ", 99999);
 		MyData1 m3 = new MyData1("123123", 999119);
 		DataPool dp = new DataPool(getContext());
-		System.out.println(dp.add("1",m1));
-		System.out.println(dp.add("2",m2));
-		System.out.println(dp.add("a",m3));
+		System.out.println(dp.put("1",m1));
+		System.out.println(dp.put("2",m2));
+		System.out.println(dp.put("a",m3));
 		Log.i("debug", "-->"+((MyData1)dp.get("1")).toString());
 		Log.i("debug", "-->"+((MyData1)dp.get("2")).toString());
 		Log.i("debug", "-->"+((MyData1)dp.get("a")).toString());
@@ -38,7 +38,7 @@ public class DataPoolTest extends AndroidTestCase {
 		map.put("2", 1111);
         MyData2 m = new MyData2(list, map);
         DataPool dp = new DataPool(getContext());
-        System.out.println(dp.add("1",m));
+        System.out.println(dp.put("1",m));
         Log.i("debug", "-->"+((MyData2)dp.get("1")).toString());
 	}
 	 
@@ -47,9 +47,9 @@ public class DataPoolTest extends AndroidTestCase {
 		MyData1 m2 = new MyData1("android ", 99999);
 		MyData1 m3 = new MyData1("123123", 999119);
 		DataPool dp = new DataPool("test",getContext());
-		System.out.println(dp.add("1",m1));
-		System.out.println(dp.add("2",m2));
-		System.out.println(dp.add("a",m3));
+		System.out.println(dp.put("1",m1));
+		System.out.println(dp.put("2",m2));
+		System.out.println(dp.put("a",m3));
 		dp.remove("2");
 		if(dp.contains("2"))System.out.println("remove error");
 		else System.out.println("remove ok!");
@@ -63,9 +63,9 @@ public class DataPoolTest extends AndroidTestCase {
 		MyData1 m2 = new MyData1("android ", 99999);
 		MyData1 m3 = new MyData1("123123", 999119);
 		DataPool dp = new DataPool("test",getContext());
-		System.out.println(dp.add("1",m1));
-		System.out.println(dp.add("2",m2));
-		System.out.println(dp.add("a",m3));
+		System.out.println(dp.put("1",m1));
+		System.out.println(dp.put("2",m2));
+		System.out.println(dp.put("a",m3));
 		
 		System.out.println(dp.set("2",new MyData1("android lover", 1001))? "---ok!" :"key is not contain !");
 		System.out.println(dp.set("ac",new MyData1("test 4 is ongoing", 1003))? "---ok!" :"key is not contain !");
